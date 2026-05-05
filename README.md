@@ -1,4 +1,4 @@
-# 🧩 DXF Nesting System
+#  DXF Nesting System
 
 > A 2D bin-packing tool that automatically arranges DXF cutting patterns on a sheet to maximize material usage and minimize waste.
 
@@ -8,11 +8,11 @@
 
 ---
 
-## 🧩 Problem
+##  Problem
 
 In CNC cutting and manufacturing, how you arrange parts on a material sheet directly affects how much you waste. Poor arrangement = money lost. This is the classic **2D bin-packing problem** — and solving it efficiently is non-trivial.
 
-## 💡 What This Does
+##  What This Does
 
 Given a DXF file containing shapes (parts to cut) and a sheet size, this tool:
 1. **Parses** the DXF file and extracts each shape's bounding box
@@ -23,7 +23,7 @@ Given a DXF file containing shapes (parts to cut) and a sheet size, this tool:
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 dxf-nesting/
@@ -44,7 +44,7 @@ dxf-nesting/
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ```bash
 # Clone the repo
@@ -62,7 +62,7 @@ Output will be saved to `output/layout.png`.
 
 ---
 
-## 🧪 Running Tests
+##  Running Tests
 
 ```bash
 pytest tests/ -v
@@ -72,7 +72,7 @@ All 7 tests cover shape geometry, overlap detection, placement logic, and effici
 
 ---
 
-## 🧠 Algorithm
+##  Algorithm
 
 The current implementation uses a **Bottom-Left Fit** heuristic:
 
@@ -88,7 +88,7 @@ The current implementation uses a **Bottom-Left Fit** heuristic:
 
 ---
 
-## 📊 Example Output
+##  Example Output
 
 ```
 [1/3] Parsing DXF file: samples/parts.dxf
