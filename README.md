@@ -1,8 +1,8 @@
 # DXF Nesting System
 
-A friend of mine works at a laser cutting shop. He told me the software they use to arrange parts on metal sheets before cutting costs thousands of dollars — and even then it doesn't always do a great job, so they end up wasting a lot of material.
+A friend of mine works at a laser cutting shop. He told me the software they use to arrange parts on metal sheets before cutting costs thousands of dollars and even then it doesn't always do a great job, so they end up wasting a lot of material.
 
-That got me thinking: the core of what that software does is actually a computer science problem — how do you fit as many shapes as possible onto a sheet without overlap? I figured I could build a basic version of it myself.
+That got me thinking: the core of what that software does is actually a computer science problem how do you fit as many shapes as possible onto a sheet without overlap? I figured I could build a basic version of it myself.
 
 This is that project. It's not finished and it's not perfect, but it works.
 
@@ -45,7 +45,7 @@ dxf-nesting/
 
 ## Algorithm
 
-Right now it uses a Bottom-Left Fit approach — it sorts shapes by size (biggest first) and places each one at the lowest, leftmost available spot on the sheet. It's a greedy heuristic, not optimal, but it runs fast and gives decent results.
+Right now it uses a Bottom-Left Fit approach it sorts shapes by size (biggest first) and places each one at the lowest, leftmost available spot on the sheet. It's a greedy heuristic, not optimal, but it runs fast and gives decent results.
 
 Things I want to add next:
 - trying rotations (0° and 90°) to fit more parts
