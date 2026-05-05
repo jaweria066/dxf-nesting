@@ -1,110 +1,71 @@
-#  DXF Nesting System
+# DXF Nesting System
 
-> A 2D bin-packing tool that automatically arranges DXF cutting patterns on a sheet to maximize material usage and minimize waste.
+A friend of mine works at a laser cutting shop. He told me the software they use to arrange parts on metal sheets before cutting costs thousands of dollars — and even then it doesn't always do a great job, so they end up wasting a lot of material.
 
-![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)
-![Status](https://img.shields.io/badge/Status-In%20Progress-orange?style=flat-square)
-![Tests](https://img.shields.io/badge/Tests-7%20passing-brightgreen?style=flat-square)
+That got me thinking: the core of what that software does is actually a computer science problem — how do you fit as many shapes as possible onto a sheet without overlap? I figured I could build a basic version of it myself.
 
----
-
-##  Problem
-
-In CNC cutting and manufacturing, how you arrange parts on a material sheet directly affects how much you waste. Poor arrangement = money lost. This is the classic **2D bin-packing problem** — and solving it efficiently is non-trivial.
-
-##  What This Does
-
-Given a DXF file containing shapes (parts to cut) and a sheet size, this tool:
-1. **Parses** the DXF file and extracts each shape's bounding box
-2. **Sorts** shapes by area (largest first) for better packing efficiency
-3. **Places** each shape using a Bottom-Left Fit heuristic — no overlaps, no overflow
-4. **Visualizes** the result as a PNG layout image
-5. **Reports** packing efficiency (% of sheet used)
+This is that project. It's not finished and it's not perfect, but it works.
 
 ---
 
-## Project Structure
+## What it does
+
+You give it a DXF file (the file format laser cutters use) and a sheet size. It reads all the shapes in the file, then tries to arrange them on the sheet to minimize wasted space. At the end it shows you a layout image and tells you how efficiently the sheet was used.
+
+---
+
+## How to run it
+
+```bash
+pip install -r requirements.txt
+python main.py your_file.dxf 1000 500
+```
+
+The numbers at the end are the sheet width and height in mm. Output image is saved to the `output/` folder.
+
+---
+
+## Project structure
 
 ```
 dxf-nesting/
-├── main.py                   # Entry point
-├── requirements.txt
+├── main.py
 ├── src/
 │   ├── parser/
-│   │   └── dxf_parser.py     # DXF file reader (uses ezdxf)
+│   │   └── dxf_parser.py     # reads the DXF file, extracts shapes
 │   ├── nesting/
-│   │   └── nester.py         # Bottom-Left Fit algorithm
+│   │   └── nester.py         # the placement algorithm
 │   └── utils/
-│       └── visualizer.py     # matplotlib layout renderer
-├── tests/
-│   └── test_nester.py        # Unit tests (pytest)
-├── samples/                  # Sample DXF files
-└── output/                   # Generated layout images
+│       └── visualizer.py     # draws the result
+└── tests/
+    └── test_nester.py
 ```
 
 ---
 
-##  Getting Started
+## Algorithm
+
+Right now it uses a Bottom-Left Fit approach — it sorts shapes by size (biggest first) and places each one at the lowest, leftmost available spot on the sheet. It's a greedy heuristic, not optimal, but it runs fast and gives decent results.
+
+Things I want to add next:
+- trying rotations (0° and 90°) to fit more parts
+- a smarter algorithm that handles irregular shapes, not just bounding boxes
+- exporting the final layout back to DXF so it can actually be sent to the machine
+
+---
+
+## Tests
 
 ```bash
-# Clone the repo
-git clone https://github.com/jaweria066/dxf-nesting.git
-cd dxf-nesting
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run on a DXF file
-python main.py samples/parts.dxf 1000 500
-```
-
-Output will be saved to `output/layout.png`.
-
----
-
-##  Running Tests
-
-```bash
-pytest tests/ -v
-```
-
-All 7 tests cover shape geometry, overlap detection, placement logic, and efficiency bounds.
-
----
-
-##  Algorithm
-
-The current implementation uses a **Bottom-Left Fit** heuristic:
-
-1. Sort shapes by area descending (biggest first fills gaps better)
-2. For each shape, scan the sheet from bottom-left to top-right
-3. Place the shape at the first valid position (no overlap, within bounds)
-4. Track efficiency as `used_area / sheet_area × 100%`
-
-**Planned improvements:**
-- Rotation support (0°, 90°)
-- Guillotine cut algorithm
-- Export nested layout back to DXF
-
----
-
-##  Example Output
-
-```
-[1/3] Parsing DXF file: samples/parts.dxf
-      Found 12 shapes
-[2/3] Running nesting on 1000x500 sheet...
-[3/3] Results:
-Sheet: 1000 x 500
-Placed:   12 shapes
-Unplaced: 0 shapes
-Efficiency: 78.4%
-Layout saved to output/layout.png
+python -m pytest tests/ -v
 ```
 
 ---
 
-## 👩‍💻 Author
+## Why DXF?
 
-**Jaweria Qadir** — Computer Engineering @ Istanbul Kultur University  
-[GitHub](https://github.com/jaweria066)
+DXF (Drawing Exchange Format) is the standard file format used by laser cutters, CNC machines, and CAD software. It made sense to work with real files instead of making up my own format.
+
+---
+
+*Built by Jaweria Qadir (Still working on it)— Computer Engineering student at Istanbul Kultur University*
